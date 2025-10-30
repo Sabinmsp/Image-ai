@@ -9,24 +9,13 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
 
   async function handleGenerate() {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
     setIsLoading(true);
     setError(null);
     setImageUrl(null);
     try {
-      const res = await fetch(`${baseUrl}/generate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-      if (!res.ok) {
-        throw new Error(`Request failed: ${res.status}`);
-      }
-      const data = (await res.json()) as { image_url?: string };
-      if (!data.image_url) {
-        throw new Error("No image_url in response");
-      }
-      setImageUrl(data.image_url);
+      const seed = encodeURIComponent(prompt.trim() || "default");
+      const url = `https://picsum.photos/seed/${seed}/1024/768`;
+      setImageUrl(url);
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : "Unknown error";
       setError(message);
