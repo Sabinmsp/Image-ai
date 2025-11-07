@@ -40,6 +40,9 @@ export default function Home() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center gap-10 py-20 px-6 bg-white dark:bg-black sm:items-start">
         <h1 className="text-3xl font-semibold text-black dark:text-zinc-50">Image-AI</h1>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          Cloudflare Pages · Worker API connected
+        </p>
 
         <div className="w-full flex flex-col gap-4">
           <input
@@ -51,14 +54,18 @@ export default function Home() {
           <button
             onClick={handleGenerate}
             disabled={isLoading || !prompt.trim()}
-            className="h-12 rounded-xl bg-black text-white disabled:opacity-60 dark:bg-zinc-100 dark:text-black"
+            className="h-12 rounded-xl bg-blue-600 text-white disabled:opacity-60 dark:bg-blue-400 dark:text-black"
           >
-            {isLoading ? "Generating..." : "Generate"}
+            {isLoading ? "Generating..." : "Generate Image"}
           </button>
         </div>
 
         {error && (
           <p className="text-red-600 dark:text-red-400">{error}</p>
+        )}
+
+        {imageUrl && (
+          <p className="text-sm text-green-600 dark:text-green-400">Image generated via Worker ✓</p>
         )}
 
         <div className="w-full min-h-[300px] flex items-center justify-center border border-dashed border-black/10 dark:border-white/20 rounded-xl p-4 bg-zinc-50 dark:bg-zinc-900">
