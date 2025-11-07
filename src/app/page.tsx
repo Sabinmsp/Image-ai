@@ -26,7 +26,10 @@ export default function Home() {
       if (result?.output?.[0]) {
         setImageUrl(result.output[0] as string);
       } else {
-        throw new Error("No image in response");
+        // Fallback: show a seeded demo image so the UI still works
+        const seed = encodeURIComponent(prompt.trim() || "default");
+        setImageUrl(`https://picsum.photos/seed/${seed}/1024/768`);
+        throw new Error("No image in response (showing demo image)");
       }
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : "Unknown error";
