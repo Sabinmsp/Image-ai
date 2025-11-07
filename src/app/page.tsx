@@ -13,9 +13,21 @@ export default function Home() {
     setError(null);
     setImageUrl(null);
     try {
-      const seed = encodeURIComponent(prompt.trim() || "default");
-      const url = `https://picsum.photos/seed/${seed}/1024/768`;
-      setImageUrl(url);
+      const response = await fetch(
+        "https://image-ai-api.sabinmsp.workers.dev",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt }),
+        }
+      );
+
+      const result = await response.json();
+      if (result?.output?.[0]) {
+        setImageUrl(result.output[0] as string);
+      } else {
+        throw new Error("No image in response");
+      }
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : "Unknown error";
       setError(message);
